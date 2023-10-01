@@ -1,7 +1,9 @@
 package com.lucassilvs.estudospring31java21.application.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotEmpty;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public record UsuarioDto(
 
         @NotEmpty(message = "Nome não pode ser vazio")

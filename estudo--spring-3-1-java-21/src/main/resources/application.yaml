@@ -1,1 +1,16 @@
 
+server:
+  port: 5000
+spring:
+  jpa:
+    database: mysql
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+  datasource:
+    url: jdbc:mysql://localhost:3303/db_usuario
+    username: spring-usuarios
+    password: localdb
+    driver-class-name: com.mysql.cj.jdbc.Driver

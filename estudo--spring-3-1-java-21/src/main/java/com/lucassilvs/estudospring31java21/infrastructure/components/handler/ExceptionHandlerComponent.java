@@ -12,7 +12,7 @@ public class ExceptionHandlerComponent {
 
     @ExceptionHandler(UsuarioException.class)
     protected ResponseEntity<ResponseLayerExceptionModel> exceptionResponseEntity(UsuarioException exception){
-        return ResponseEntity.status(exception.getStatus()).body(new ResponseLayerExceptionModel(exception.getCamada().getDisplayName(), exception.getMessage()));
+        return ResponseEntity.status(exception.getStatus()).body(new ResponseLayerExceptionModel(exception.getCamada().getDisplayName(), exception.getMensagem()));
     }
 
 }

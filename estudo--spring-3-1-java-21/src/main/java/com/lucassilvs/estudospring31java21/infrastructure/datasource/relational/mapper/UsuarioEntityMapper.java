@@ -6,7 +6,7 @@ import com.lucassilvs.estudospring31java21.infrastructure.datasource.relational.
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-@Mapper(componentModel = "spring", nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+@Mapper(componentModel = "spring")
 public interface UsuarioEntityMapper {
 
     UsuarioEntityMapper INSTANCE = Mappers.getMapper(UsuarioEntityMapper.class);
@@ -14,7 +14,6 @@ public interface UsuarioEntityMapper {
     UsuarioJpaEntity map(UsuarioModel usuarioModel);
 
     @InheritInverseConfiguration
-    @Mapping(target = "senha", ignore = true)
     UsuarioModel map(UsuarioJpaEntity usuarioJpaEntity);
 
     @Mapping(target = "email", ignore = true)

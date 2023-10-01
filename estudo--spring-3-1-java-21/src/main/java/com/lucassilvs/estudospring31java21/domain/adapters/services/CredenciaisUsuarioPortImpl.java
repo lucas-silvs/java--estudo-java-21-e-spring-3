@@ -34,7 +34,7 @@ public class CredenciaisUsuarioPortImpl implements CredenciaisUsuarioPort {
         UsuarioModel usuarioModel = usuarioRepository.buscarUsuario(credencialsModel.email());
 
         if (!passwordComponent.validarSenha(credencialsModel.senha(), usuarioModel.senha())) {
-            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA, this.getClass().getEnclosingMethod().getName(), 401);
+            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA,"validarSenha()", 401);
         }
 
     }
@@ -47,7 +47,7 @@ public class CredenciaisUsuarioPortImpl implements CredenciaisUsuarioPort {
         UsuarioModel usuarioModel = usuarioRepository.buscarUsuario(credencialsModel.email());
 
         if (!passwordKeyboardComponent.validarSenha(credencialsModel.teclado(), credencialsModel.teclas(), usuarioModel.senha())) {
-            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA, this.getClass().getEnclosingMethod().getName(), 401);
+            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA,"validarSenhaTecladoVirtual()", 401);
         }
     }
 
@@ -59,7 +59,7 @@ public class CredenciaisUsuarioPortImpl implements CredenciaisUsuarioPort {
         UsuarioModel usuarioModel = usuarioRepository.buscarUsuario(alterarCredencialModel.email());
 
         if (!passwordComponent.validarSenha(alterarCredencialModel.senhaAtual(), usuarioModel.senha())) {
-            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA, this.getClass().getEnclosingMethod().getName(), 401);
+            throw new DomainException(SENHA_INVALIDA, SENHA_INVALIDA, "alterarCredenciais()", 401);
         }
 
         usuarioRepository.alterarCredencialUsuario(alterarCredencialModel.email(), passwordComponent.gerarHash(alterarCredencialModel.novaSenha()));
@@ -77,7 +77,7 @@ public class CredenciaisUsuarioPortImpl implements CredenciaisUsuarioPort {
 
     private void validarCadastroEmail(String email) {
         if (!usuarioRepository.emailUsuariocadastrado(email)) {
-            throw new DomainException(String.format("Email %s do usuario não está cadastrado", email), "Usuario Não está cadastrado", this.getClass().getEnclosingMethod().getName(), 409);
+            throw new DomainException(String.format("Email %s do usuario não está cadastrado", email), "Usuario Não está cadastrado", "resetarCredenciais()", 409);
         }
     }
 }

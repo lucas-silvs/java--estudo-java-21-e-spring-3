@@ -7,11 +7,9 @@ import com.lucassilvs.estudospring31java21.application.mapper.UsuarioDtoMapper;
 import com.lucassilvs.estudospring31java21.application.models.*;
 import com.lucassilvs.estudospring31java21.domain.ports.interfaces.CredenciaisUsuarioPort;
 import com.lucassilvs.estudospring31java21.domain.ports.interfaces.UsuarioPort;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/usuario")
@@ -34,43 +32,43 @@ public class UsuarioControllerImpl implements UsuarioController {
     }
 
     @PostMapping
-    public void CadastrarUsuario(UsuarioDto userDto) {
+    public void CadastrarUsuario(@Valid @RequestBody UsuarioDto userDto) {
         usuarioPort.cadastrarUsuario(usuarioDtoMapper.map(userDto));
     }
 
     @GetMapping
-    public UsuarioDto buscarUsuarioPorEmail(String email) {
+    public UsuarioDto buscarUsuarioPorEmail(@RequestParam String email) {
         return usuarioDtoMapper.map(usuarioPort.buscarUsuario(email));
     }
 
-    @Override
-    public void atualizarUsuario(AtualizarUsuarioDto atualizarUsuarioDto) {
+    @PutMapping
+    public void atualizarUsuario(@Valid @RequestBody AtualizarUsuarioDto atualizarUsuarioDto) {
         usuarioPort.atualizarDadosUsuario(usuarioDtoMapper.map(atualizarUsuarioDto));
     }
 
-    @Override
-    public void deletarUsuario(String email) {
+    @DeleteMapping
+    public void deletarUsuario(@RequestParam String email) {
         usuarioPort.excluirUsuario(email);
     }
 
-    @Override
-    public void autenticarUsuarioTeclado(CredencialUsuarioTecladoDto credencialUsuarioTecladoDTO) {
+    @PostMapping("/autenticar/teclado")
+    public void autenticarUsuarioTeclado(@Valid @RequestBody CredencialUsuarioTecladoDto credencialUsuarioTecladoDTO) {
         credenciaisUsuarioPort.validarSenhaTecladoVirtual(credentialDtoMapper.map(credencialUsuarioTecladoDTO));
     }
 
-    @Override
-    public void autenticarUsuarioSenha(CredencialUsuarioDto credencialUsuarioDTO) {
+    @PostMapping("/autenticar/senha")
+    public void autenticarUsuarioSenha(@Valid @RequestBody CredencialUsuarioDto credencialUsuarioDTO) {
         credenciaisUsuarioPort.validarSenha(credentialDtoMapper.map(credencialUsuarioDTO));
 
     }
 
-    @Override
-    public void alterarSenha(AlterarSenhaDto alterarSenhaDto) {
+    @PutMapping("alterar/senha")
+    public void alterarSenha(@Valid @RequestBody AlterarSenhaDto alterarSenhaDto) {
         credenciaisUsuarioPort.alterarCredenciais(credentialDtoMapper.map(alterarSenhaDto));
     }
 
-    @Override
-    public void resetarSenha(ResetarSenhaDto resetarSenhaDto) {
+    @PutMapping("resetar/senha")
+    public void resetarSenha(@Valid @RequestBody ResetarSenhaDto resetarSenhaDto) {
         credenciaisUsuarioPort.resetarCredenciais(credentialDtoMapper.map(resetarSenhaDto));
     }
 

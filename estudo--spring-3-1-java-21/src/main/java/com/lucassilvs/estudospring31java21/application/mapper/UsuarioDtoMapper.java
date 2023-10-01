@@ -10,6 +10,7 @@ import com.lucassilvs.estudospring31java21.domain.models.usuario.AtualizarDadosU
 import com.lucassilvs.estudospring31java21.domain.models.usuario.UsuarioModel;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface UsuarioDtoMapper {
@@ -18,6 +19,7 @@ public interface UsuarioDtoMapper {
     UsuarioModel map(UsuarioDto usuarioDto);
 
     @InheritInverseConfiguration
+    @Mapping(target = "senha", ignore = true)
     UsuarioDto map(UsuarioModel usuarioModel);
 
     AtualizarDadosUsuarioModel map(AtualizarUsuarioDto atualizarUsuarioDto);
