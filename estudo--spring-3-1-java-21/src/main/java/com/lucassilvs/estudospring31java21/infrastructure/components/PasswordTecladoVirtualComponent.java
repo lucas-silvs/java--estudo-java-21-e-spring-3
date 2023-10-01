@@ -3,8 +3,6 @@ package com.lucassilvs.estudospring31java21.infrastructure.components;
 import com.lucassilvs.estudospring31java21.domain.ports.repositories.password.PasswordComponent;
 import com.lucassilvs.estudospring31java21.domain.ports.repositories.password.PasswordKeyboardComponent;
 import com.lucassilvs.estudospring31java21.exceptions.InfrastructureException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,11 +12,8 @@ import java.util.function.Function;
 @Component
 public class PasswordTecladoVirtualComponent implements PasswordKeyboardComponent {
 
+    public static final String ERROR_INTERNO_TECLADO = "Erro durante geração de senha teclado virtual: ";
     private final PasswordComponent passwordComponents;
-
-
-    //    instancia logger
-    private static final Logger LOGGER = LoggerFactory.getLogger(PasswordTecladoVirtualComponent.class);
 
     @Autowired
     public PasswordTecladoVirtualComponent( PasswordComponent passwordComponents1) {
@@ -31,7 +26,7 @@ public class PasswordTecladoVirtualComponent implements PasswordKeyboardComponen
                     try {
                         return passwordComponents.validarSenha(candidate, senha);
                     } catch (Exception e){
-                        throw new InfrastructureException("Erro durante geração de senha teclado virtual", e.getMessage(), this.getClass().getEnclosingMethod().getName(), 500);
+                        throw new InfrastructureException(ERROR_INTERNO_TECLADO, e.getMessage(), this.getClass().getEnclosingMethod().getName(), 500);
                     }
                 }
         );
@@ -42,10 +37,9 @@ public class PasswordTecladoVirtualComponent implements PasswordKeyboardComponen
 
         String senhadecodificada = decodeBinarySearch(tecladoVirtual, teclasPresionadas, (String candidate) -> {
                     try {
-                        LOGGER.info(candidate);
                         return passwordComponents.validarSenha(candidate, senha);
                     } catch (Exception e){
-                        throw new InfrastructureException("Erro durante geração de senha teclado virtual", e.getMessage(), this.getClass().getEnclosingMethod().getName(), 500);
+                        throw new InfrastructureException(ERROR_INTERNO_TECLADO,e.getMessage(),"decodeParallel()", 500);
                     }
                 }
         );
@@ -55,10 +49,9 @@ public class PasswordTecladoVirtualComponent implements PasswordKeyboardComponen
     public boolean validarSenha(char[][] teclado, int[] teclas, String hash) {
         char[] senhadecodificada = decodeParallel(teclado, teclas, (String candidate) -> {
                     try {
-                        LOGGER.info(candidate);
                         return passwordComponents.validarSenha(candidate, hash);
                     } catch (Exception e){
-                        throw new InfrastructureException("Erro durante geração de senha teclado virtual: ", e.getMessage(), this.getClass().getEnclosingMethod().getName(), 500);
+                        throw new InfrastructureException(ERROR_INTERNO_TECLADO, e.getMessage(), this.getClass().getEnclosingMethod().getName(), 500);
                     }
                 }
         );
@@ -140,7 +133,7 @@ public class PasswordTecladoVirtualComponent implements PasswordKeyboardComponen
                     return candidate;
                 }
             } catch (InterruptedException | ExecutionException e) {
-                // Tratar exceções
+                throw new InfrastructureException("Erro durante geração de senha teclado virtual: ",e.getMessage(),"decodeParallel()", 500);
             }
         }
 
