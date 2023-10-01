@@ -63,16 +63,13 @@ public class CredenciaisUsuarioPortImpl implements CredenciaisUsuarioPort {
         }
 
         usuarioRepository.alterarCredencialUsuario(alterarCredencialModel.email(), passwordComponent.gerarHash(alterarCredencialModel.novaSenha()));
-
     }
 
     @Override
     public void resetarCredenciais(ResetarCredenciaisModel resetarCredenciaisModel) {
-
         validarCadastroEmail(resetarCredenciaisModel.email());
 
         usuarioRepository.alterarCredencialUsuario(resetarCredenciaisModel.email(), passwordComponent.gerarHash(resetarCredenciaisModel.novaSenha()));
-
     }
 
     private void validarCadastroEmail(String email) {

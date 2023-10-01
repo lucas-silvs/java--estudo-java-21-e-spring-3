@@ -55,7 +55,7 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
         return usuarioJpaRepository.existsByEmail(email);
     }
 
-    @Override
+    @Transactional
     public void excluirUsuario(String email) {
         usuarioJpaRepository.deleteByEmail(email);
     }
